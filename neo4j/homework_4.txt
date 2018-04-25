@@ -1,7 +1,123 @@
-// The scenario you have used for your schema is:
+// The scenario you have used for your schema is: Game of Thrones
 
 
 // This is an example. Your own commands should *not* be commented out so we can pipe the file into the cypher-shell.
 // If you'd like to test your commands, you can run 'cat homework_4.txt | cypher-shell -u neo4j -p test' from
 // the vagrant box command line. Make sure neo4j is running first.
 // CREATE (a:person { name: 't' });
+CREATE (n:Tyrion { Kingdom:'Casterly Rock'});
+CREATE (n:Jamie { Kingdom:'Casterly Rock'});
+CREATE (n:Cersi { Kingdom:'King's Landing'});
+CREATE (n:Robert { Kingdom:"King's Landing"});
+CREATE (n:Robb { Kingdom:"Winterfell"});
+CREATE (n:Eddard { Kingdom:"Winterfell"});
+CREATE (n:Sansa { Kingdom:"Winterfell"});
+CREATE (n:Arya { Kingdom:"Winterfell"});
+CREATE (n:Jon { Kingdom:"Winterfell"});
+
+
+MATCH (a:Tyrion),(b:Cersi)
+CREATE (a)-[r:Brother_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Cersi),(b:Tyrion)
+CREATE (a)-[r:Sister_Of { since: '273 AC'}]->(b)
+RETURN type(r), r.since;
+
+MATCH (a:Cersi),(b:Jamie)
+CREATE (a)-[r:Sister_Of { since: '266 AC'}]->(b)
+RETURN type(r), r.since;
+
+MATCH (a:Jamie),(b:Cersi)
+CREATE (a)-[r:Brother_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Cersi),(b:Jamie)
+CREATE (a)-[r:Loves]->(b)
+RETURN type(r);
+
+MATCH (a:Jamie),(b:Cersi)
+CREATE (a)-[r:Loves]->(b)
+RETURN type(r);
+
+MATCH (a:Cersi),(b:Robert)
+CREATE (a)-[r:Wife_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Robert),(b:Cersi)
+CREATE (a)-[r:Husband_of]->(b)
+RETURN type(r);
+
+MATCH (a:Robert),(b:Eddard)
+CREATE (a)-[r:Friend_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Eddard),(b:Robert)
+CREATE (a)-[r:Friend_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Eddard),(b:Robb)
+CREATE (a)-[r:Father_Of{since: '283 AC'}]->(b)
+RETURN type(r), r.since;
+
+MATCH (a:Robb),(b:Eddard)
+CREATE (a)-[r:Son_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Eddard),(b:Sansa)
+CREATE (a)-[r:Father_Of{since: '286 AC'}]->(b)
+RETURN type(r), r.since;
+
+MATCH (a:Sansa),(b:Eddard)
+CREATE (a)-[r:Daughter_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Eddard),(b:Arya)
+CREATE (a)-[r:Father_Of{since: '289 AC'}]->(b)
+RETURN type(r), r.since;
+
+MATCH (a:Arya),(b:Eddard)
+CREATE (a)-[r:Daughter_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Arya),(b:Sansa)
+CREATE (a)-[r:Sister_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Sansa),(b:Arya)
+CREATE (a)-[r:Sister_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Arya),(b:Robb)
+CREATE (a)-[r:Sister_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Robb),(b:Arya)
+CREATE (a)-[r:Brother_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Sansa),(b:Robb)
+CREATE (a)-[r:Sister_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Robb),(b:Sansa)
+CREATE (a)-[r:Brother_Of]->(b)
+RETURN type(r);
+
+MATCH (a:Eddard),(b:Jon)
+CREATE (a)-[r:Uncle_Of {since:'283 AC'}]->(b)
+RETURN type(r), r.since;
+
+MATCH (a:Jon),(b:Eddard)
+CREATE (a)-[r:Newphew_Of]->(b)
+RETURN type(r);
+
+// Commands to query for a subgraph
+MATCH (n)
+   RETURN n, properties(n);
+
+MATCH (n)-[r]-(m) RETURN n, type(r), m;
+
+
+
+

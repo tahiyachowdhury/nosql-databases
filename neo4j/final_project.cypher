@@ -1,4 +1,4 @@
-// Please run the data into the database by running 'cat final_project.cypher | cypher-shell -u neo4j -p test' from the vagrant shell 
+// Please load the data into the database by running 'cat final_project.cypher | cypher-shell -u neo4j -p test' from the vagrant shell 
 CREATE (n:User1 { username: 'Ana', followers: 2 });
 CREATE (n:User2 { username: 'Alex', followers: 4 });
 CREATE (n:User3 { username: 'Mary', followers: 1 });

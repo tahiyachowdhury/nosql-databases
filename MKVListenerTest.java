@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javafx.beans.binding.Bindings.when;
+import org.junit.test;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
@@ -15,6 +16,7 @@ public class MKVListenerTest {
     private MKVListener mkvListener;
     private IgniteCacher igniteCacher;
 
+    @Test
     public void testMkvListener(){
         mkvListener = new MKVListener();
         beforeTest();
@@ -30,17 +32,17 @@ public class MKVListenerTest {
 
 
     public void subscribeToChainTest() {
-        assertEquals(true, mkvListener.start());
+        assertEquals(true, mkvListener.subscribeToChain("USD.ANALYTICS_PRICE.ANALYTICS.PRICES"));
     }
 
 
     public void onFullUpdateTest() {
-        assertEquals();
+        assertEquals(true, mkvListener.onFullUpdate("USD.ANALYTICS_PRICE.ANALYTICS.PRICES", new MkvRecord()));
     }
 
 
-
-    public void beforeTest(){
+    
+    public void beforeTest() throws Exception{
         mkv = mock(Mkv.class);
         igniteCacher = mock(IgniteCacher.class);
         when(igniteCacher.update()).thenReturn(constructMkv());
@@ -49,17 +51,17 @@ public class MKVListenerTest {
 
         String chainName = "USD.ANALYTICS_PRICE.ANALYTICS.PRICES";
 
-        when(mkv.getInstance()).thenReturn(constructMkv());
+        when(mkv.start.getInstance()).thenReturn(true);
 
         MKVListener.ChainListener chainListener = new MKVListener.ChainListener(chainName, mkv);
         when(mkv.getSubscribeManager().persistentSubscribe
                 (chainName, chainListener, chainListener)).
                 thenReturn(chain);
+        
+        when(igniteCacher.update(chainName, any(MkvRecord.class))).thenReturn(true);
     }
 
-    public boolean constructMkv(){
-        return true;
-    }
+    /*
     public List<String> constructChain(){
         List<String> mockChain = new ArrayList<>();
         mockChain.add("Rec1");
@@ -67,9 +69,6 @@ public class MKVListenerTest {
         mockChain.add("Rec3");
 
         return mockChain;
-    }
-
-
-
+    }*/
 
 }

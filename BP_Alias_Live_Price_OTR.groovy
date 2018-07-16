@@ -75,3 +75,10 @@ class BPAliasLiveMidPriceOTRCheck extends MonitoringJob {
         }
     }
 }
+
+
+"SELECT * FROM (SELECT RecordId FROM ${aliasChainPrefix}${record}) AS records WHERE fieldname = "cusip""
+
+            "SELECT RecordId FROM {liveMidPricePrefix}${cusip}"
+
+            "SELECT * FROM WHERE fieldname = "Midprice"
